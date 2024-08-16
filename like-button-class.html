@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>웹게임</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      'use strict';
+
+      // 컴포넌트를 만드는 부분
+      // 화면을 바뀌는 부분은 state로 만든다
+      class LikeButton extends React.Component {
+        // 데이터 부분
+        constructor(props) {
+          super(props);
+          this.state = { liked: false };
+        }
+        // 화면에 보여지는 부분 (return이 들어가야함)
+        render() {
+          if (this.state.liked) {
+            return 'You liked this';
+          }
+
+          // M1)
+          //   return React.createElement(
+          //     'button',
+          //     {
+          //       onClick: () => {
+          //         this.setState({ liked: true });
+          //       },
+          //     },
+          //     'like'
+          //   );
+
+          // M2) JSX 문법
+          return (
+            <button onClick={() => this.setState({ liked: true })}>Like</button>
+          );
+
+          // pop, push, shift, unshift, splice -> 배열을 직접적으로 수정하는 함수 (사용 지양)
+          // concat, slice -> 새로운 배열을 만들어내는 함수 (사용 지향)
+        }
+      }
+    </script>
+    <script type="text/babel">
+      // M1)
+      // 만든 컴포넌트를 화면에 그리는 부분
+      // LikeButton을 root에 그린다
+      //   ReactDOM.render(
+      //     React.createElement(LikeButton),
+      //     document.querySelector('#root')
+      //   );
+
+      // M2) JSX 문법 (createElement를 대체함)
+      // ReactDOM.render(<LikeButton />, document.querySelector('#root')); // React 17버전 코드
+      ReactDOM.createRoot(document.querySelector('#root')).render(
+        <LikeButton />
+      ); // React 18버전 코드
+    </script>
+  </body>
+</html>
