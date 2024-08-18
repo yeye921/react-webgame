@@ -34,12 +34,16 @@
             parseInt(this.state.value) ===
             this.state.first * this.state.second
           ) {
-            this.setState({
-              result: '정답',
-              first: Math.ceil(Math.random() * 9),
-              second: Math.ceil(Math.random() * 9),
-              value: '',
+            // 이전 상태를 참고해야할 때
+            this.setState((prevState) => {
+              return {
+                result: '정답: ' + prevState.value,
+                first: Math.ceil(Math.random() * 9),
+                second: Math.ceil(Math.random() * 9),
+                value: '',
+              };
             });
+            this.input.focus();
           } else {
             this.setState({
               result: '땡',
@@ -50,6 +54,9 @@
         onChange = (e) => {
           this.setState({ value: e.target.value });
         };
+
+        input;
+
         render() {
           return (
             <div>
@@ -59,16 +66,16 @@
               <form onSubmit={this.onSubmit}>
                 <input
                   // 기본 핸들러: onClick, onChange, onSubmit, onLoad,onFocus,onBlur
+                  ref={(c) => {
+                    this.input = c;
+                  }}
                   type='number'
                   value={this.state.value}
                   onChange={this.onChange} // value값을 업데이트 함
                 />
                 <button>입력!</button>
               </form>
-              <div>
-                {this.state.first} x {this.state.second}은 = {this.state.value}{' '}
-                {this.state.result}
-              </div>
+              <div>{this.state.result}</div>
             </div>
           );
         }
